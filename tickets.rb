@@ -24,7 +24,8 @@ tickets_in_git = tickets_in_git.split("\n")
 tickets_msg = "Found #{tickets_in_git.count} tickets in git"
 
 if (tickets_in_git.count > 0) 
-  puts "#{tickets_msg}: #{tickets_in_git.join('\n')}".green
+  tickets_string = tickets_in_git.join("\n")
+  puts "#{tickets_msg}:\n#{tickets_string}".green
 else
-  abort "#{tickets_msg}"
+  puts "#{tickets_msg}".yellow
 end
