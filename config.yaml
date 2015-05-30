@@ -1,1 +1,1 @@
-tickets_pattern: NEXT_BIG_THING-[0-9]+
+tickets_prefix: '#'

@@ -18,7 +18,7 @@ class ConfigParser
 
 	abort "Missing argument: from version" if options[:from_version].to_s == ''
 	abort "Missing argument: to version"  if options[:to_version].to_s == ''
-	abort "Missing tickets pattern in config file"  if config['tickets_pattern'].to_s == ''
+	abort "Missing tickets prefix in config file"  if config['tickets_prefix'].to_s == ''
 
 	return options.merge(config)
   end

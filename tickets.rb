@@ -17,7 +17,7 @@ hash_to = branches[/#{regexp_prefix}#{Regexp.escape(config[:to_version])}/, 1]
 abort "Unable to get #{options.from_version} hash from remote." if hash_from.to_s == ''
 abort "Unable to get #{options.to_version} hash from remote." if hash_to.to_s == ''
 
-tickets_pattern = Regexp.escape(config['tickets_pattern'])
+tickets_pattern = Regexp.escape(config['tickets_prefix']) + '[0-9]\+'
 tickets_in_git = `git log #{hash_to}..#{hash_from} --graph --oneline --decorate --no-merges | grep -o '#{tickets_pattern}' | sort | uniq`
 tickets_in_git = tickets_in_git.split("\n")
 
