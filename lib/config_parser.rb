@@ -10,7 +10,7 @@ class ConfigParser
 	  opts.on('-f', '--from-version VERSION', 'Release version from which to start') { |v| options[:from_version] = v }
 	  opts.on('-t', '--to-version VERSION', 'Release version to end gathering tickets') { |v| options[:to_version] = v }
 	  opts.on_tail("-h", "--help", "Show this message") { puts opts; exit }
-	  opts.on_tail("--version", "Show version") { puts '0.0.1'; exit }
+	  opts.on_tail("--version", "Show version") { puts '0.2.0'; exit }
 
 	end.parse!
 
