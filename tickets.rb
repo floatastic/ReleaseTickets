@@ -11,11 +11,11 @@ git_log_parser = GitLogParser.new(config[:from_version], config[:to_version], co
 tickets_in_git = git_log_parser.tickets!
 
 def print_summary(tickets)
-  tickets_msg = "Found #{tickets.count} tickets in git"
+  tickets_msg = "Found #{tickets.count} tickets"
 
   if (tickets.count > 0) 
-    tickets_string = tickets.join("\n")
-    puts "#{tickets_msg}:\n#{tickets_string}".green
+    puts "#{tickets_msg}:".green
+    tickets.each { |ticket| puts ticket.verified ? "#{ticket}".green : "#{ticket}".yellow }
   else
     puts "#{tickets_msg}".yellow
   end

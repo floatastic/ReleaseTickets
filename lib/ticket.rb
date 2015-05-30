@@ -1,4 +1,6 @@
 class Ticket
+  attr_accessor :verified
+
   def self.tickets_from_ids(ids)
   	tickets = []
 
@@ -9,9 +11,11 @@ class Ticket
 
   def initialize(id)
   	@id = id
+  	@verified = false
   end
 
   def to_s
-     @id + (@title ? ": #{@title}" : '')
+  	suffix = @verified ? (@title ? ": #{@title}" : '') : "(not verified)"
+     @id + ": #{suffix}"
   end
 end
