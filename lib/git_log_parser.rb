@@ -1,3 +1,5 @@
+require_relative 'ticket'
+
 class GitLogParser
   def initialize(from_version, to_version, tickets_prefix)
     @from_version = from_version
@@ -19,6 +21,6 @@ class GitLogParser
 
 	tickets_pattern = Regexp.escape(@tickets_prefix) + '[0-9]\+'
 	tickets_in_git = `git log #{hash_to}..#{hash_from} --graph --oneline --decorate --no-merges | grep -o '#{tickets_pattern}' | sort | uniq`
-	return tickets_in_git.split("\n")
+	return Ticket.tickets_from_ids(tickets_in_git.split("\n")) 
   end
 end
