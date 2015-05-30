@@ -1,31 +1,24 @@
 #!/usr/bin/env ruby
 
 require_relative 'lib/config_parser'
+require_relative 'lib/git_log_parser'
 require 'colorize'
 require 'pp'
 
 config = ConfigParser.full_config!
 
-branches = `git ls-remote -t -h`
+git_log_parser = GitLogParser.new(config[:from_version], config[:to_version], config['tickets_prefix'])
+tickets_in_git = git_log_parser.tickets!
 
-abort "Unable to retrieve branches and tags information from remote" if branches.to_s == ''
+def print_summary(tickets)
+  tickets_msg = "Found #{tickets.count} tickets in git"
 
-regexp_prefix = '([a-zA-Z0-9]{40})\t[a-zA-Z0-9\/]*?\/'
-hash_from = branches[/#{regexp_prefix}#{Regexp.escape(config[:from_version])}/, 1]
-hash_to = branches[/#{regexp_prefix}#{Regexp.escape(config[:to_version])}/, 1]
-
-abort "Unable to get #{config[:from_version]} hash from remote." if hash_from.to_s == ''
-abort "Unable to get #{config[:to_version]} hash from remote." if hash_to.to_s == ''
-
-tickets_pattern = Regexp.escape(config['tickets_prefix']) + '[0-9]\+'
-tickets_in_git = `git log #{hash_to}..#{hash_from} --graph --oneline --decorate --no-merges | grep -o '#{tickets_pattern}' | sort | uniq`
-tickets_in_git = tickets_in_git.split("\n")
-
-tickets_msg = "Found #{tickets_in_git.count} tickets in git"
-
-if (tickets_in_git.count > 0) 
-  tickets_string = tickets_in_git.join("\n")
-  puts "#{tickets_msg}:\n#{tickets_string}".green
-else
-  puts "#{tickets_msg}".yellow
+  if (tickets.count > 0) 
+    tickets_string = tickets.join("\n")
+    puts "#{tickets_msg}:\n#{tickets_string}".green
+  else
+    puts "#{tickets_msg}".yellow
+  end
 end
+
+print_summary(tickets_in_git)
